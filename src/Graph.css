@@ -1,0 +1,48 @@
+.headlineBackground {
+  position: relative;
+  background-color: rgb(1, 1, 37);
+  font-size: 1.05em;
+  width: 500px;
+  height: 30px;
+  text-align: left;
+}
+
+.headline {
+  padding-top: 5px;
+  padding-left: 25px;
+  color: orangered;
+  font-weight: 540;
+  letter-spacing: 0.15em;
+}
+
+.container {
+  position: absolute;
+  background-color: rgb(1, 1, 37);
+  width: 500px;
+  height: 300px;
+  z-index: -55;
+}
+
+.advUrl a {
+  font-family: "Tangerine", cursive;
+  font-size: 2em;
+  font-style: italic;
+}
+
+.advUrl a:hover {
+  font-family: "Tangerine", cursive;
+  color: orangered;
+  font-size: 2em;
+  font-style: italic;
+}
+
+.advUrl {
+  position: absolute;
+  background-color: rgb(1, 1, 37);
+  width: 110px;
+  height: 40px;
+  top: 605px;
+  left: 360px;
+  padding-top: 10px;
+  z-index: 55;
+}

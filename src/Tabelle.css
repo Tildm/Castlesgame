@@ -1,0 +1,89 @@
+.Container {
+  box-sizing: border-box;
+}
+
+.TabelleButon {
+  position: absolute;
+  margin-top: 280px;
+  margin-left: 235px;
+}
+
+.Tabelle {
+  display: flex;
+  box-sizing: border-box;
+  top: 30px;
+  position: absolute;
+  width: 500px;
+  height: 261px;
+  background-color: rgb(1, 1, 37);
+  opacity: 75%;
+}
+
+.TabelleListHeader {
+  box-sizing: border-box;
+  width: 500px;
+  padding-top: 4%;
+  padding-left: 20%;
+  padding-right: 20%;
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+}
+
+.TabelleList {
+  position: absolute;
+  width: 500px;
+  height: 261px;
+  top: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.listItems {
+  box-sizing: border-box;
+  width: 300px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9em;
+  border-bottom: 0.3px grey solid;
+}
+
+.castlePoints {
+  font-weight: normal;
+}
+
+.IconTable img {
+  position: absolute;
+  margin-top: -352px;
+  margin-left: 377px;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.tooltip {
+  position: absolute;
+  display: inline-block;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 140px;
+  top: -398px;
+  left: 290px;
+  background-color: whitesmoke;
+  font-size: 0.7em;
+  color: rgb(1, 1, 37);
+  text-align: center;
+
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}

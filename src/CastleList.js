@@ -1,7 +1,11 @@
 import React, { Component } from "react";
 import axios from "axios";
+import shuffle from "shuffle-array";
 import Castle from "./Castle";
-
+import Advert from "./Advert";
+import CastleTable from "./CastleTable";
+import Graph from "./Graph";
+import "./Graph.css";
 
 class CastleList extends Component {
   static defaultProps = {
@@ -10,94 +14,128 @@ class CastleList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      castles: [],
-      loading: false
+      randomCastles: [],
+      castleInfo2: "",
+      advert: 0,
+      loading: false,
+      hover: true
     };
-    this.seenCastles = new Set(this.state.castles.map(j => j.id));
-    this.handelClick = this.handelClick.bind(this);
-
   }
 
   componentDidMount() {
-    if (this.state.castles.length === 0) this.getCastles();
+    if (this.state.randomCastles.length === 0) this.getCastles();
   }
+
   async getCastles() {
+    let randomCastles = [];
+    let rCastles = [];
+    let i;
 
-    let castles = [];
-    let i = [];
+    let res = await axios.get("https://castles2.herokuapp.com/castles/");
+    const castle = res.data;
 
-    while (this.state.castles.length < this.props.castlesToGet) {
+    rCastles = shuffle(castle);
 
-      {i = Math.floor(Math.random() * 3) }
+    for (i = 0; i <= 1; i++) {
+      let image = rCastles[i].image;
+      let name = rCastles[i].name;
+      let vote = rCastles[i].vote;
+      let text = rCastles[i].text;
+      let id = rCastles[i]._id;
 
-      let res = await axios.get("https://castlesbackend.herokuapp.com/castles/");
-      let {data} = res;
-      let castle = data;
-      let place = castle[i].name;
-      let id = castle[i]._id;
-      let image = castle[i].image;
+      randomCastles.push({ image, name, id, text, vote });
+    }
 
-      console.log("castleslength: " + castle.length);
+    this.setState({
+      randomCastles: [...randomCastles],
+      loading: true
+    });
+  }
 
-      const isUnique = this.seenCastles.has(id);
-      if (!isUnique) {
-        castles.push({id, image, place, votes: 0 });
-
-        this.seenCastles.add(id);
-      } else {
-
-      }
-    // }
+  handelInfo(id) {
+    let castleInfo2 = this.state.randomCastles.map(c =>
+      c.id === id ? c.text : null
+    );
 
     this.setState(prevState => ({
-      loading: false,
-      castles: [...castles]
+      hover: !prevState.hover,
+      castleInfo2: castleInfo2
     }));
+
   }
-}
-  handelClick() {
-    this.setState({ loading: true }, this.getCastles);
-  }
+
 
   handelVote(id, delta) {
-    this.setState(
-      prevState => ({
-        castles: prevState.castles.map(j =>
-          j.id === id ? { ...j, votes: j.votes + delta } : j
-        ),
-        loading: false
-      }),
-
-      this.getCastles
+    let vote = 0;
+    let prevStateVote = this.state.randomCastles.map(c =>
+      c.id === id ? c.vote + delta : 0
     );
+    console.log("ADV2: " + this.props.advert2);
+
+    this.setState(prevState => ({
+      hover: true,
+      advert:
+        this.state.advert === 0 && this.props.advert2 === 2
+          ? this.props.advert2 + 1
+          : prevState.advert + 1
+    }));
+
+    prevStateVote.sort();
+
+    for (let i = 0; i <= 1; i++) {
+      prevStateVote[i] !== 0
+        ? (vote = prevStateVote[i])
+        : console.log(prevStateVote[i]);
+    }
+
+    axios
+      .put("https://castles2.herokuapp.com/castles/" + id, { vote: vote })
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+
+    this.getCastles();
   }
+
   render() {
-    if (this.state.loading) {
+    if (!this.state.loading) {
       return (
         <div>
-          <h5>Loading...</h5>
+          <h5 style={{ color: "red" }}>Loading...</h5>
         </div>
       );
     }
-    let castles = this.state.castles.sort((a, b) => b.votes - a.votes);
-    return (
-      <div>
-        <h1>Castles</h1>
-        <div>
-          {this.state.castles.map(j => (
-            <Castle
-              text={j.text}
-              key={j.id}
-              name={j.place}
-              image={j.image}
-              votes={j.votes}
-              upVote={() => this.handelVote(j.id, +1)}
 
+    console.log("advert: " + this.state.advert);
+    if (this.state.advert === 2 || this.state.advert === 6) {
+      return <Advert advert2={this.state.advert} />;
+    } else {
+      return (
+        <div>
+          <Graph />
+          {this.state.randomCastles.map(c => (
+            <Castle
+              text={c.text}
+              name={c.name}
+              image={c.image}
+              votes={c.vote}
+              key={c.id}
+              id={c.id}
+              advUrl={c.advUrl}
+              hover={this.state.hover}
+              upVote={() => this.handelVote(c.id, 1)}
+              info={() => this.handelInfo(c.id)}
+              infoOff={() => this.handelInfoOff()}
             />
           ))}
+
+          <CastleTable />
         </div>
-      </div>
-    );
+      );
+    }
   }
 }
 export default CastleList;

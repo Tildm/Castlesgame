@@ -1,0 +1,71 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  position: relative;
+}
+
+.advert {
+  position: relative;
+  width: 500px;
+  height: 260px;
+}
+
+.advert img {
+  width: 500px;
+  height: 260px;
+  cursor: pointer;
+}
+
+.arrow img {
+  position: absolute;
+  width: 35%;
+  height: 20%;
+  top: 10px;
+  right: 25px;
+  opacity: 100%;
+  cursor: pointer;
+  color: whitesmoke;
+}
+
+.arrow img:hover {
+  opacity: 100%;
+  transform: scale(1.12);
+  transition: transform 0.5s;
+}
+
+.backToCG {
+  width: 500px;
+  height: 40px;
+  background-color: rgb(1, 1, 37);
+  text-align: left;
+  padding: 10px 0px 0px 25px;
+}
+
+.backToCGtext {
+  cursor: pointer;
+}
+
+.homepageTC {
+  width: 500px;
+  height: 45px;
+  background-color: rgb(1, 1, 37);
+  text-align: left;
+  padding: 7px 0px 0px 25px;
+}
+
+.advUrlTC {
+  font-family: "Tangerine", cursive;
+  font-size: 2em;
+  font-style: italic;
+}
+
+.advUrlTC:hover {
+  font-family: "Tangerine", cursive;
+  color: orangered;
+  font-size: 2em;
+  font-style: italic;
+}
